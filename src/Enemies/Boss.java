@@ -19,5 +19,4 @@ public class Boss extends Enemy {
     public Position onGameTick(Player player) {
         return this.getPosition();
     }
-
 }

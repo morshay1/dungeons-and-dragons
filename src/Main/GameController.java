@@ -36,6 +36,7 @@ public class GameController {
             try {
                 List<String> stringBoard = loadBoard(levelsPath, currentLevel);
                 board = new Board(stringBoard, player, cli.message);
+                new GameWindow(board, this);
             } catch (IOException e) {
                 cli.display("Failed to process level " + currentLevel + ".");
                 return;
@@ -109,7 +110,7 @@ public class GameController {
                 board.moveEnemy(enemy, newPosition);
             }
         }
-        board.getEnemies().removeIf(Enemy::isDead);
+        board.removeDeadEnemies();
     }
 
     public void playerAction() {
@@ -141,5 +142,34 @@ public class GameController {
                 }
             }
         }
+    }
+
+    public void guiPlayerAction(String action) {
+        switch (action) {
+            case "w" -> board.movePlayer(-1, 0);
+
+            case "s" -> board.movePlayer(1, 0);
+
+            case "a" -> board.movePlayer(0, -1);
+
+            case "d" -> board.movePlayer(0, 1);
+
+            case "e" -> player.onAbilityCast(board.getEnemies());
+
+            default -> {
+                return;
+            }
+        }
+
+        player.onGameTick();
+
+        for (Enemy enemy : board.getEnemies()) {
+            if (!enemy.isDead()) {
+                Position newPosition = enemy.onGameTick(player);
+                board.moveEnemy(enemy, newPosition);
+            }
+        }
+
+        board.removeDeadEnemies();
     }
 }

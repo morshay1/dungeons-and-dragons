@@ -15,8 +15,8 @@ public abstract class Enemy extends Unit {
     }
 
     public void initialize(Position position, MessageCallback messageCallback) {
-        DeathCallback enemyDeathCallback = () -> System.out.println(getName() + " enemy died.");
-        super.initialize(position, messageCallback, enemyDeathCallback);
+        DeathCallback deathCallback = () -> System.out.println(getName() + " enemy died.");
+        super.initialize(position, messageCallback, deathCallback);
     }
 
     public abstract Position onGameTick(Player player);
@@ -41,7 +41,18 @@ public abstract class Enemy extends Unit {
     }
 
     @Override
-    public void onDeath() {
-        //
+    public void onDeath(Unit attacker) {
+        deathCallback.call();
+        messageCallback.send(
+                this.getName() + " died. " + attacker.getName() + " gained " + getExperienceValue() + " experience.");
+        if (attacker instanceof Player player) {
+            player.addExperience(this.experienceValue);
+        }
+    }
+
+    @Override
+    public String describe() {
+        return super.describe()
+                + String.format("\t\tExperience Value: %d", getExperienceValue());
     }
 }

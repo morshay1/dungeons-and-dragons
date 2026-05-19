@@ -1,7 +1,5 @@
 package Players;
 
-import Tiles.Unit;
-
 import java.util.List;
 
 import Enemies.Enemy;
@@ -9,6 +7,7 @@ import Messages.DeathCallback;
 import Messages.MessageCallback;
 import Resources.Health;
 import Tiles.Position;
+import Tiles.Unit;
 
 public abstract class Player extends Unit {
     protected int experience;
@@ -23,8 +22,8 @@ public abstract class Player extends Unit {
     }
 
     public void initialize(Position position, MessageCallback messageCallback) {
-        DeathCallback enemyDeathCallback = () -> System.out.println(getName() + " died. Game over.");
-        super.initialize(position, messageCallback, enemyDeathCallback);
+        DeathCallback deathCallback = () -> System.out.println(getName() + " died. Game over.");
+        super.initialize(position, messageCallback, deathCallback);
     }
 
     public void levelUp() {
@@ -34,8 +33,21 @@ public abstract class Player extends Unit {
             Health userHealth = getHealth();
             userHealth.setPool(userHealth.getPool() + (level * 10));
             userHealth.setAmount(userHealth.getPool());
-            setAttackPoints(getAttackPoints() + (level * 4));
-            setDefensePoints(getDefense() + level);
+            addAttackPoints(level * 4);
+            addDefensePoints(level);
+        }
+    }
+
+    protected void abilityDamage(Enemy enemy, int rawDamage) {
+        int defenseRoll = enemy.defend();
+        int damage = Math.max(rawDamage - defenseRoll, 0);
+
+        messageCallback.send(enemy.getName() + " rolled " + defenseRoll + " defense points.");
+        enemy.getHealth().reduceAmount(damage);
+        messageCallback.send(getName() + " hit " + enemy.getName() + " for " + damage + " ability damage.");
+
+        if (enemy.isDead()) {
+            enemy.onDeath(this);
         }
     }
 
@@ -45,6 +57,14 @@ public abstract class Player extends Unit {
 
     public void setExperience(int newExperience) {
         experience = newExperience;
+    }
+
+    public void addExperience(int amount) {
+        experience += amount;
+
+        while (experience >= level * 50) {
+            levelUp();
+        }
     }
 
     public int getLevel() {
@@ -68,23 +88,22 @@ public abstract class Player extends Unit {
 
     @Override
     public void visit(Enemy enemy) {
-        System.out.println("DEBUG: Player battles " + enemy.getName());
         battle(enemy);
-        System.out.println("DEBUG: enemy health after battle: " + enemy.getHealth());
 
         if (enemy.isDead()) {
-            setExperience(getExperience() + enemy.getExperienceValue());
             if (getExperience() >= (level * 50)) {
                 levelUp();
             }
-            enemy.onDeath();
             setPosition(enemy.getPosition());
         }
     }
 
     @Override
-    public void onDeath() {
+    public void onDeath(Unit attacker) {
         setTile('X');
+        deathCallback.call();
+        messageCallback.send(getName() + " was killed.");
+
     }
 
     @Override

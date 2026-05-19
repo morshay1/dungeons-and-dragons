@@ -32,13 +32,12 @@ public class Rogue extends Player {
     public void onAbilityCast(List<Enemy> enemies) {
         if (energy.getAmount() < cost) {
             messageCallback.send("Tried to cast Fan of Knives, but there's not enough energy.");
+            return;
         } else {
             this.energy.reduceAmount(this.cost);
             for (Enemy enemy : enemies) {
                 if (range(this.getPosition(), enemy.getPosition()) < RANGE) {
-                    enemy.getHealth().reduceAmount(this.attackPoints);
-                    // enemy tries to defend themselves
-                    // remove dead enemies from board
+                    abilityDamage(enemy, this.attackPoints);
                 }
             }
         }

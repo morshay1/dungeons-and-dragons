@@ -33,7 +33,7 @@ public class Trap extends Enemy {
     }
 
     @Override
-    public char getTile(){
+    public char getTile() {
         return this.visible ? super.getTile() : '.';
     }
 }

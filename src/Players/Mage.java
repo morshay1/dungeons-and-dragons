@@ -45,6 +45,7 @@ public class Mage extends Player {
     public void onAbilityCast(List<Enemy> enemies) {
         if (mana.getAmount() < manaCost) {
             messageCallback.send("Tried to cast Blizzard, but there's not enough mana.");
+            return;
         } else {
             mana.setAmount(mana.getAmount() - manaCost);
             int hits = 0;
@@ -58,15 +59,11 @@ public class Mage extends Player {
                 messageCallback.send("No enemies within range.");
                 return;
             }
-            while (hits < hitsCount) {
+            while (hits < hitsCount && !enemiesWithinRange.isEmpty()) {
                 Random rand = new Random();
                 Enemy selectedEnemy = enemiesWithinRange.get(rand.nextInt(enemiesWithinRange.size()));
-                // TODO: enemy defend itself, remove enemy if he died
-                selectedEnemy.getHealth().reduceAmount(this.spellPower);
-                if (selectedEnemy.getHealth().getAmount() <= 0) { // TODO maybe board should remove enemies
-                    enemies.remove(selectedEnemy);
-                    selectedEnemy.onDeath();
-                }
+                abilityDamage(selectedEnemy, this.spellPower);
+                enemiesWithinRange.removeIf(Enemy::isDead);
                 hits++;
             }
         }

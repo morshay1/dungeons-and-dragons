@@ -28,4 +28,17 @@ public class Position {
             return this.x - position.x;
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Position p)) {
+            return false;
+        }
+        return p.getX() == this.x && p.getY() == this.y;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + "," + y + ")";
+    }
 }

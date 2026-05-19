@@ -24,8 +24,8 @@ public class Board {
         this.tiles = new ArrayList<>();
         this.enemies = new ArrayList<>();
         this.messageCallback = messageCallback;
-        boardHeight = board.size();
-        boardWidth = board.get(0).length();
+        this.boardHeight = board.size();
+        this.boardWidth = board.get(0).length();
         createBoard(board);
     }
 
@@ -53,13 +53,23 @@ public class Board {
 
     public void movePlayer(int x, int y) {
         Position currentPlayerPosition = player.getPosition();
-        int currentX = currentPlayerPosition.getX();
-        int currentY = currentPlayerPosition.getY();
-        int boardWidth = board.get(0).length();
-        int nextStepIndex = (currentX + x) * boardWidth + (currentY + y);
-        Tile nextTile = tiles.get(nextStepIndex);
+
+        int oldIndex = currentPlayerPosition.getX() * boardWidth + currentPlayerPosition.getY();
+
+        int newX = currentPlayerPosition.getX() + x;
+        int newY = currentPlayerPosition.getY() + y;
+
+        int newIndex = newX * boardWidth + newY;
+
+        Tile nextTile = tiles.get(newIndex);
+
         player.interact(nextTile);
-        reCreateBoard(nextTile);
+
+        if (player.getPosition().getX() == newX && player.getPosition().getY() == newY) {
+            tiles.set(oldIndex, new Empty(currentPlayerPosition));
+            tiles.set(newIndex, player);
+        }
+
     }
 
     public void moveEnemy(Enemy enemy, Position newPosition) {
@@ -79,16 +89,24 @@ public class Board {
         }
     }
 
-    public void reCreateBoard(Tile tileToSwap) {
-        int index1 = tiles.indexOf(tileToSwap);
-        int index2 = tileToSwap.getPosition().getY() + (tileToSwap.getPosition().getX() * boardWidth);
-        Tile secondTileToSwap = tiles.get(index2);
-        tiles.set(index1, secondTileToSwap);
-        tiles.set(index2, tileToSwap);
+    public void removeDeadEnemies() {
+        enemies.removeIf(Enemy::isDead);
     }
 
     public List<Enemy> getEnemies() {
         return this.enemies;
+    }
+
+    public int getBoardHeight() {
+        return boardHeight;
+    }
+
+    public int getBoardWidth() {
+        return boardWidth;
+    }
+
+    public List<Tile> getTiles() {
+        return tiles;
     }
 
     @Override

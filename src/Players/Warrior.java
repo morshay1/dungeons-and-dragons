@@ -28,10 +28,8 @@ public class Warrior extends Player {
         this.remainingCooldown = 0;
         Health health = this.getHealth();
         health.setPool(health.getPool() + (this.getLevel() * 5));
-        // health.setHealthAmount(health.getHealthPool()); maybe this is needed- not
-        // sure yet
-        this.setAttackPoints(this.getAttackPoints() + (this.getLevel() * 2));
-        this.setDefensePoints(this.getDefense() + this.getLevel());
+        this.addAttackPoints(this.getLevel() * 2);
+        this.addDefensePoints(this.getLevel());
     }
 
     @Override
@@ -58,16 +56,14 @@ public class Warrior extends Player {
             return;
         }
         this.remainingCooldown = this.abilityCooldown;
-        this.getHealth().setAmount(Math.min(this.getHealth().getAmount() + (this.getDefense() * 10),
-                this.getHealth().getPool()));
+        int healAmount = this.getDefense() * 10;
+        this.getHealth().setAmount(
+                Math.min(this.getHealth().getAmount() + healAmount, this.getHealth().getPool()));
+        messageCallback.send(getName() + " used Avenger's Shield, healing for " + healAmount + ".");
         Random rand = new Random();
         Enemy selectedEnemy = enemiesWithinRange.get(rand.nextInt(enemiesWithinRange.size()));
         int hit = this.getHealth().getPool() / 10;
-        selectedEnemy.getHealth().reduceAmount(hit);
-        if (selectedEnemy.getHealth().getAmount() <= 0) { // TODO maybe board should remove enemies
-            enemies.remove(selectedEnemy);
-            selectedEnemy.onDeath();
-        }
+        abilityDamage(selectedEnemy, hit);
     }
 
     @Override

@@ -12,7 +12,7 @@ public abstract class Unit extends Tile {
     protected int attackPoints;
     protected int defensePoints;
     protected MessageCallback messageCallback;
-    protected DeathCallback enemyDeathCallback;
+    protected DeathCallback deathCallback;
 
     protected Unit(char tile, String name, int healthCapacity, int attackPoints, int defensePoints) {
         super(tile);
@@ -22,10 +22,10 @@ public abstract class Unit extends Tile {
         this.defensePoints = defensePoints;
     }
 
-    protected void initialize(Position position, MessageCallback messageCallback, DeathCallback enemyDeathCallback) {
+    protected void initialize(Position position, MessageCallback messageCallback, DeathCallback deathCallback) {
         super.initialize(position);
         this.messageCallback = messageCallback;
-        this.enemyDeathCallback = enemyDeathCallback;
+        this.deathCallback = deathCallback;
     }
 
     public void interact(Tile tile) {
@@ -35,7 +35,7 @@ public abstract class Unit extends Tile {
     protected void battle(Unit defender) {
         int attackRoll = attack();
         int defenseRoll = defender.defend();
-        int damage = attackRoll - defenseRoll;
+        int damage = Math.max(attackRoll - defenseRoll, 0);
 
         messageCallback.send(this.getName() + " engaged in combat with " + defender.getName() + ".");
         messageCallback.send(this.describe());
@@ -43,11 +43,11 @@ public abstract class Unit extends Tile {
         messageCallback.send(this.getName() + " rolled " + attackRoll + " attack points.");
         messageCallback.send(defender.getName() + " rolled " + defenseRoll + " defense points.");
 
-        if (damage > 0) {
-            defender.getHealth().reduceAmount(damage);
-            messageCallback.send(this.getName() + " dealt " + damage + " damage to " + defender.getName() + ".");
-        } else {
-            messageCallback.send(this.getName() + " dealt 0 damage to " + defender.getName() + ".");
+        defender.getHealth().reduceAmount(damage);
+        messageCallback.send(this.getName() + " dealt " + damage + " damage to " + defender.getName() + ".");
+
+        if (defender.isDead()) {
+            defender.onDeath(this);
         }
     }
 
@@ -79,7 +79,7 @@ public abstract class Unit extends Tile {
 
     public abstract void visit(Enemy e);
 
-    public abstract void onDeath();
+    public abstract void onDeath(Unit attacker);
 
     public String getName() {
         return name;
@@ -93,16 +93,16 @@ public abstract class Unit extends Tile {
         return attackPoints;
     }
 
-    public void setAttackPoints(int newAttackPoints) {
-        attackPoints = newAttackPoints;
+    public void addAttackPoints(int newAttackPoints) {
+        attackPoints += newAttackPoints;
     }
 
     public int getDefense() {
         return defensePoints;
     }
 
-    public void setDefensePoints(int newDefensePoints) {
-        defensePoints = newDefensePoints;
+    public void addDefensePoints(int newDefensePoints) {
+        defensePoints += newDefensePoints;
     }
 
     public int range(Position p, Position q) {
