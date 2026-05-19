@@ -39,13 +39,6 @@ Open the project in:
 
 Run the `Main` class.
 
-Example:
-
-```bash
-javac Main.java
-java Main
-```
-
 ---
 
 ## Future Improvements
@@ -54,8 +47,6 @@ Possible future extensions for the project:
 
 - Multiplayer support
 - Network/server-based gameplay
-- Improved GUI and animations
-- Additional enemy types and levels
 - Save/load game functionality
 - Concurrency and multithreading optimizations for game systems
 
