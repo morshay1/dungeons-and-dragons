@@ -2,7 +2,10 @@
 
 ![Game Screenshot](assets/game-screenshot.png)
 
+---
+
 ## Introduction
+
 Dungeons and Dragons is a single-player multi-level dungeon crawler game developed in Java.  
 The project was built as part of an Object-Oriented Programming course and focuses on applying core software engineering principles such as inheritance, polymorphism, abstraction, encapsulation, and clean class design.
 
@@ -13,7 +16,9 @@ The project also includes a graphical user interface (GUI) implementation using 
 
 ---
 
-## Project Structure - UML Diagram
+## Project Structure
+
+### UML Diagram
 
 ![UML Diagram](assets/d&d.drawio.png)
 
@@ -30,6 +35,7 @@ git clone https://github.com/morshay1/dungeons-and-dragons.git
 ### Open the project
 
 Open the project in:
+
 - IntelliJ IDEA
 - VS Code
 - Eclipse
