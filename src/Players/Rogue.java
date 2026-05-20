@@ -29,9 +29,9 @@ public class Rogue extends Player {
     }
 
     @Override
-    public void onAbilityCast(List<Enemy> enemies) {
+    public void castAbility(List<Enemy> enemies) {
         if (energy.getAmount() < cost) {
-            messageCallback.send("Tried to cast Fan of Knives, but there's not enough energy.");
+            messageCallback.send("Tried to cast " + this.abilityName + ", but there's not enough energy.");
             return;
         } else {
             this.energy.reduceAmount(this.cost);
@@ -46,7 +46,7 @@ public class Rogue extends Player {
     @Override
     public String describe() {
         return super.describe()
-                + String.format("\t\tEnergy: %s", this.energy);
+                + String.format("\t\tEnergy: %s", energy);
     }
 
 }

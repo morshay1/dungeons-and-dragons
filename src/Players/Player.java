@@ -8,8 +8,9 @@ import Messages.MessageCallback;
 import Resources.Health;
 import Tiles.Position;
 import Tiles.Unit;
+import Tiles.HeroicUnit;
 
-public abstract class Player extends Unit {
+public abstract class Player extends Unit implements HeroicUnit<List<Enemy>> {
     protected int experience;
     protected int level;
     protected String abilityName;
@@ -79,7 +80,7 @@ public abstract class Player extends Unit {
 
     public abstract void onGameTick();
 
-    public abstract void onAbilityCast(List<Enemy> enemies);
+    public abstract void castAbility(List<Enemy> enemies);
 
     @Override
     public void visit(Player player) {

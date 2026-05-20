@@ -24,10 +24,6 @@ public class Mage extends Player {
         this.abilityRange = abilityRange;
     }
 
-    public int getSpellPower() {
-        return spellPower;
-    }
-
     @Override
     public void uponLevelingUp() {
         this.levelUp();
@@ -42,9 +38,9 @@ public class Mage extends Player {
     }
 
     @Override
-    public void onAbilityCast(List<Enemy> enemies) {
+    public void castAbility(List<Enemy> enemies) {
         if (mana.getAmount() < manaCost) {
-            messageCallback.send("Tried to cast Blizzard, but there's not enough mana.");
+            messageCallback.send("Tried to cast " + this.abilityName + ", but there's not enough mana.");
             return;
         } else {
             mana.setAmount(mana.getAmount() - manaCost);
@@ -72,6 +68,6 @@ public class Mage extends Player {
     @Override
     public String describe() {
         return super.describe()
-                + String.format("\t\tMana: %s\t\tSpell Power: %d", this.mana, getSpellPower());
+                + String.format("\t\tMana: %s\t\tSpell Power: %d", mana, spellPower);
     }
 }

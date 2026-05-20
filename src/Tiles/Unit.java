@@ -38,12 +38,11 @@ public abstract class Unit extends Tile {
         int damage = Math.max(attackRoll - defenseRoll, 0);
 
         messageCallback.send(this.getName() + " engaged in combat with " + defender.getName() + ".");
-        messageCallback.send(this.describe());
-        messageCallback.send(defender.describe());
         messageCallback.send(this.getName() + " rolled " + attackRoll + " attack points.");
         messageCallback.send(defender.getName() + " rolled " + defenseRoll + " defense points.");
 
         defender.getHealth().reduceAmount(damage);
+
         messageCallback.send(this.getName() + " dealt " + damage + " damage to " + defender.getName() + ".");
 
         if (defender.isDead()) {

@@ -1,27 +1,20 @@
 package Players;
 
+import java.util.Comparator;
 import java.util.List;
 
 import Enemies.Enemy;
 
 public class Hunter extends Player {
-    private int range;
+    private int hunterRange;
     private int arrowsCount;
     private int ticksCount;
 
-    public Hunter(String name, int healthCapacity, int attackPoints, int defensePoints, int range) {
+    public Hunter(String name, int healthCapacity, int attackPoints, int defensePoints, int hunterRange) {
         super(name, healthCapacity, attackPoints, defensePoints, "Shoot");
-        this.range = range;
+        this.hunterRange = hunterRange;
         this.arrowsCount = 10 * this.level;
         this.ticksCount = 0;
-    }
-
-    public int getArrows() {
-        return arrowsCount;
-    }
-
-    public int getRange() {
-        return range;
     }
 
     @Override
@@ -38,19 +31,32 @@ public class Hunter extends Player {
             this.arrowsCount += level;
             this.ticksCount = 0;
         } else {
-            this.ticksCount += 1;
+            this.ticksCount++;
         }
     }
 
     @Override
-    public void onAbilityCast(List<Enemy> enemies) {
-        this.arrowsCount -= 1;
-        // Deal damage equals to attack points to the closest enemy within range (The
-        // enemy will try to defend itself)
+    public void castAbility(List<Enemy> enemies) {
+        if (arrowsCount == 0) {
+            messageCallback.send("Tried to cast " + this.abilityName + ", but there's not enough arrows.");
+            return;
+        }
+
+        Enemy closestEnemy = enemies.stream()
+                .filter(enemy -> range(this.getPosition(), enemy.getPosition()) <= hunterRange)
+                .min(Comparator.comparingDouble(enemy -> range(this.getPosition(), enemy.getPosition())))
+                .orElse(null);
+
+        if (closestEnemy == null) {
+            messageCallback.send("No enemies within range.");
+            return;
+        }
+        arrowsCount--;
+        abilityDamage(closestEnemy, attackPoints);
     }
 
     @Override
     public String describe() {
-        return super.describe() + String.format("\t\tArrows: %d\t\tRange: %d", getArrows(), getRange());
+        return super.describe() + String.format("\t\tArrows: %d\t\tRange: %d", arrowsCount, hunterRange);
     }
 }

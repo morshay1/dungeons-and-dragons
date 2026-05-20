@@ -36,7 +36,7 @@ public class GameController {
             try {
                 List<String> stringBoard = loadBoard(levelsPath, currentLevel);
                 board = new Board(stringBoard, player, cli.message);
-                new GameWindow(board, this);
+                // new GameWindow(board, this);
             } catch (IOException e) {
                 cli.display("Failed to process level " + currentLevel + ".");
                 return;
@@ -134,7 +134,7 @@ public class GameController {
                     return;
                 }
                 case "e" -> {
-                    player.onAbilityCast(board.getEnemies());
+                    player.castAbility(board.getEnemies());
                     return;
                 }
                 default -> {
@@ -154,7 +154,7 @@ public class GameController {
 
             case "d" -> board.movePlayer(0, 1);
 
-            case "e" -> player.onAbilityCast(board.getEnemies());
+            case "e" -> player.castAbility(board.getEnemies());
 
             default -> {
                 return;

@@ -40,9 +40,9 @@ public class Warrior extends Player {
     }
 
     @Override
-    public void onAbilityCast(List<Enemy> enemies) {
+    public void castAbility(List<Enemy> enemies) {
         if (this.remainingCooldown > 0) {
-            messageCallback.send("Tried to cast Avenger's Shield, but it is on cooldown.");
+            messageCallback.send("Tried to cast " + this.abilityName + ", but it is on cooldown.");
             return;
         }
         List<Enemy> enemiesWithinRange = new ArrayList<>();
