@@ -15,7 +15,7 @@ The project also includes a graphical user interface (GUI) implementation using 
 
 ## Project Structure - UML Diagram
 
-![UML Diagram](assets/uml-diagram.png)
+![UML Diagram](assets/d&d.drawio.png)
 
 ---
 
