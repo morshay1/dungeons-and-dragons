@@ -6,17 +6,40 @@
 
 ## Introduction
 
-Dungeons and Dragons is a single-player multi-level dungeon crawler game developed in Java.  
-The project was built as part of an Object-Oriented Programming course and focuses on applying core software engineering principles such as inheritance, polymorphism, abstraction, encapsulation, and clean class design.
+My version of Dungeons and Dragons is a single-player multi-level dungeon crawler game developed in Java.  
+The project was built as part of an Object-Oriented Programming course at Ben-Gurion University and focuses on applying core software engineering principles such as inheritance, polymorphism, abstraction, encapsulation, and clean class design.
 
-In the game, the player explores dangerous dungeon levels filled with enemies, traps, and obstacles.  
-The objective is to survive battles, defeat all enemies on each level, and progress through the dungeon until the final level is completed.
-
-The project also includes a graphical user interface (GUI) implementation using Java Swing.
+The project also includes a graphical user interface (GUI) built using Java Swing.
 
 ---
 
 ## Gameplay
+
+In the game, the player explores dangerous dungeon levels filled with enemies, traps, and obstacles.  
+The objective is to defeat all enemies on each level and progress through the dungeon until the final level is completed.  
+The player can move around the board, attack enemies, and use unique special abilities depending on the selected character.
+
+### Controls
+
+| Key | Action               |
+| --- | -------------------- |
+| `W` | Move Up              |
+| `A` | Move Left            |
+| `S` | Move Down            |
+| `D` | Move Right           |
+| `E` | Cast Special Ability |
+| `Q` | Wait / Skip Turn     |
+
+### Game Rules
+
+- Walls/bushes block movement.
+- Enemy units also block movement.
+- Moving into an enemy tile initiates combat.
+- Enemies move and attack during their turns.
+- Defeating enemies grants experience points.
+- Gaining enough experience levels up the player and improves stats.
+- Each player class has a unique special ability.
+- The game ends when the player dies or completes all dungeon levels.
 
 ---
 
@@ -49,17 +72,6 @@ Run the `Main` class.
 
 ---
 
-## Future Improvements
-
-Possible future extensions for the project:
-
-- Multiplayer support
-- Network/server-based gameplay
-- Save/load game functionality
-- Concurrency and multithreading optimizations for game systems
-
----
-
 ## Learning Goals
 
 This project was created to practice and demonstrate:
@@ -73,6 +85,18 @@ This project was created to practice and demonstrate:
 
 ---
 
+## Future Improvements
+
+Possible future extensions for the project:
+
+- Multiplayer support
+- Network/server-based gameplay
+- Save/load game functionality
+- Concurrency and multithreading optimizations for game systems
+
+---
+
 ## Contribution
 
 This project was developed by Mor Shay.
+Animations were drawn by Yaal Hans Shapira.
