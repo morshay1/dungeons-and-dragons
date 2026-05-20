@@ -16,9 +16,11 @@ The project also includes a graphical user interface (GUI) implementation using 
 
 ---
 
-## Project Structure
+## Gameplay
 
-### UML Diagram
+---
+
+## Project Structure
 
 ![UML Diagram](assets/d&d.drawio.png)
 
@@ -71,6 +73,6 @@ This project was created to practice and demonstrate:
 
 ---
 
-## Author
+## Contribution
 
-Developed by Mor Shay.
+This project was developed by Mor Shay.
