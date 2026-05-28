@@ -6,7 +6,8 @@
 
 ## Introduction
 
-My version of Dungeons and Dragons is a single-player multi-level dungeon crawler game developed in Java.  
+My version of Dungeons and Dragons is a single-player multi-level dungeon crawler game developed in Java.
+
 The project was built as part of an Object-Oriented Programming course at Ben-Gurion University and focuses on applying core software engineering principles such as inheritance, polymorphism, abstraction, encapsulation, and clean class design.
 
 The project also includes a graphical user interface (GUI) built using Java Swing.
@@ -98,5 +99,5 @@ Possible future extensions for the project:
 
 ## Contribution
 
-This project was developed by Mor Shay.
-Animations were drawn by Yaal Hans Shapira.
+This project was developed by Mor Shay.  
+Illustrations were drawn by Yaal Hans Shapira.
