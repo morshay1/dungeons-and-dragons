@@ -1,6 +1,6 @@
 # Dungeons and Dragons
 
-![Game Screenshot](assets/game-screenshot.png)
+![Game Screenshot](assets/docs/game-screenshot.png)
 
 ---
 
@@ -46,7 +46,7 @@ The player can move around the board, attack enemies, and use unique special abi
 
 ## Project Structure
 
-![UML Diagram](assets/d&d.drawio.png)
+![UML Diagram](assets/docs/d&d.drawio.png)
 
 ---
 
