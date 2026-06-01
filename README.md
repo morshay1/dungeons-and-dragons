@@ -8,7 +8,7 @@
 
 My version of Dungeons and Dragons is a single-player multi-level dungeon crawler game developed in Java.
 
-The project was built as part of an Object-Oriented Programming course at Ben-Gurion University and focuses on applying core software engineering principles such as inheritance, polymorphism, abstraction, encapsulation, and clean class design.
+The project was built as part of an Object-Oriented Programming course at Ben-Gurion University and focuses on applying core software engineering principles such as inheritance, polymorphism, abstraction, encapsulation, design patterns such as the Observer and Visitor patterns, and clean class design.
 
 The project also includes a graphical user interface (GUI) built using Java Swing.
 
@@ -79,6 +79,7 @@ This project was created to practice and demonstrate:
 
 - Java programming
 - Object-Oriented Programming
+- Design Patterns (Visitor Pattern, Observer Pattern)
 - Software architecture and design
 - Java Swing GUI development
 - Clean code practices
