@@ -5,11 +5,13 @@ import java.awt.*;
 import players.Player;
 import main.Board;
 import main.GameController;
+import tiles.Position;
 
 public class GameWindow extends JFrame {
     private String levelsPath;
     private GameController controller;
     private InfoPanel infoPanel;
+    private GamePanel gamePanel;
 
     public GameWindow(String levelsPath) {
         this.levelsPath = levelsPath;
@@ -39,7 +41,7 @@ public class GameWindow extends JFrame {
         mainPanel.setLayout(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        GamePanel gamePanel = new GamePanel(controller, board, this);
+        gamePanel = new GamePanel(controller, board, this);
         infoPanel = new InfoPanel(board);
 
         JPanel boardWrapper = new JPanel(new GridBagLayout());
@@ -63,10 +65,43 @@ public class GameWindow extends JFrame {
         repaint();
     }
 
+    public void setStatusMessage(String message) {
+        if (infoPanel != null) {
+            infoPanel.setMessage(message);
+        }
+    }
+
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
+
+    public void showCenterMessage(String message) {
+        GameBackgroundPanel panel = new GameBackgroundPanel();
+        panel.setLayout(new GridBagLayout());
+
+        JLabel label = new JLabel(message);
+        label.setFont(new Font("Serif", Font.BOLD, 54));
+        label.setForeground(new Color(120, 20, 20));
+
+        panel.add(label);
+
+        setContentPane(panel);
+        revalidate();
+        repaint();
+    }
+
+    public void showFightCloud(Position position) {
+        if (gamePanel != null) {
+            gamePanel.showFightCloud(position);
+        }
+    }
 }
+
+
+
+
+
+
 
 class GameBackgroundPanel extends JPanel {
     private Image background;

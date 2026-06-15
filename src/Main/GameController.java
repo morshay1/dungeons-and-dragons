@@ -19,6 +19,7 @@ public class GameController {
     private Player player;
     private Board board;
     private GameWindow window;
+    private boolean waitingForNextLevel = false;
 
     public GameController(String levelsPath) {
         this.cli = new CLI();
@@ -38,7 +39,6 @@ public class GameController {
             try {
                 List<String> stringBoard = loadBoard(levelsPath, currentLevel);
                 board = new Board(stringBoard, player, cli.message);
-                // new GameWindow(board, this);
             } catch (IOException e) {
                 cli.display("Failed to process level " + currentLevel + ".");
                 return;
@@ -151,24 +151,28 @@ public class GameController {
     }
 
     public void guiPlayerAction(String action) {
-        if (player.isDead()) {
+        if (player.isDead() || waitingForNextLevel) {
             return;
         }
+        
+        Position playerPositionBeforeAction  = player.getPosition();
 
         switch (action) {
             case "w" -> board.movePlayer(-1, 0);
-
             case "s" -> board.movePlayer(1, 0);
-
             case "a" -> board.movePlayer(0, -1);
-
             case "d" -> board.movePlayer(0, 1);
-
             case "e" -> player.castAbility(board.getEnemies());
-
             default -> {
                 return;
             }
+        }
+
+        Position playerPositionAfterAction = player.getPosition();
+
+        if (playerPositionBeforeAction.compareTo(playerPositionAfterAction) == 0
+                && (action.equals("w") || action.equals("s") || action.equals("a") || action.equals("d"))) {
+            window.showFightCloud(playerPositionBeforeAction);
         }
 
         player.onGameTick();
@@ -181,30 +185,32 @@ public class GameController {
         }
 
         board.removeDeadEnemies();
-        
+        window.refresh(board);
+
         if (player.isDead()) {
-            window.refresh(board);
-            window.showMessage("You lost.");
+            window.showCenterMessage("YOU DIED");
             return;
         }
+
         if (board.getEnemies().isEmpty()) {
+            waitingForNextLevel = true;
+
+            int completedLevel = currentLevel;
             currentLevel++;
 
-            if (currentLevel > levelsAmount) {
-                window.showMessage("You win!");
-                return;
-            }
+            window.showCenterMessage("LEVEL " + completedLevel + " COMPLETE!");
 
-            try {
-                List<String> stringBoard = loadBoard(levelsPath, currentLevel);
-                board = new Board(stringBoard, player, cli.message);
-                window.showGame(board);
-            } catch (IOException ex) {
-                window.showMessage("Failed to load level " + currentLevel + ".");
-            }
+            new javax.swing.Timer(2000, e -> {
+                ((javax.swing.Timer) e.getSource()).stop();
+
+                waitingForNextLevel = false;
+                loadNextGuiLevel();
+            }).start();
 
             return;
         }
+
+        window.setStatusMessage("");
     }
 
     public void startWithPlayer(Player selectedPlayer, GameWindow window) {
@@ -217,6 +223,28 @@ public class GameController {
             window.showGame(board);
         } catch (IOException e) {
             window.showMessage("Failed to process level " + currentLevel + ".");
+        }
+    }
+
+    private void loadNextGuiLevel() {
+        if (currentLevel > levelsAmount) {
+            window.showCenterMessage("YOU WIN!");
+            return;
+        }
+
+        try {
+            List<String> stringBoard = loadBoard(levelsPath, currentLevel);
+            board = new Board(stringBoard, player, cli.message);
+
+            System.out.println("Loaded level: " + currentLevel);
+            System.out.println("Width: " + board.getBoardWidth());
+            System.out.println("Height: " + board.getBoardHeight());
+            System.out.println("Tiles: " + board.getTiles().size());
+
+            window.showGame(board);
+            window.setStatusMessage("");
+        } catch (IOException ex) {
+            window.showCenterMessage("Failed to load level " + currentLevel + ".");
         }
     }
 }

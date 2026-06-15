@@ -10,6 +10,7 @@ import java.util.Map;
 import main.Board;
 import main.GameController;
 import tiles.Tile;
+import tiles.Position;
 import players.Warrior;
 import players.Mage;
 import players.Rogue;
@@ -24,6 +25,8 @@ public class GamePanel extends JPanel {
     private BufferedImage ground;
     private Map<Character, BufferedImage> images;
     private GameWindow window;
+    private Position fightPosition;
+    private boolean showFightCloud = false;
 
     public GamePanel(GameController controller, Board board, GameWindow window) {
         this.controller = controller;
@@ -116,6 +119,15 @@ public class GamePanel extends JPanel {
                 g.drawImage(image, x, y, TILE_SIZE, TILE_SIZE, null);
             }
         }
+        if (showFightCloud && fightPosition != null) {
+            int x = fightPosition.getY() * TILE_SIZE;
+            int y = fightPosition.getX() * TILE_SIZE;
+
+            BufferedImage cloud = images.get('F');
+            if (cloud != null) {
+                g.drawImage(cloud, x, y, TILE_SIZE, TILE_SIZE, null);
+            }
+        }
     }
 
     private BufferedImage getImageForTile(Tile tile) {
@@ -136,6 +148,18 @@ public class GamePanel extends JPanel {
         }
 
         return images.get(tile.getTile());
+    }
+
+    public void showFightCloud(Position position) {
+        this.fightPosition = position;
+        this.showFightCloud = true;
+        repaint();
+
+        new Timer(400, e -> {
+            showFightCloud = false;
+            repaint();
+            ((Timer) e.getSource()).stop();
+        }).start();
     }
 
 }

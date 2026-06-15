@@ -10,6 +10,7 @@ public class InfoPanel extends JPanel {
     private JLabel nameLabel;
     private JLabel statsLabel;
     private JProgressBar healthBar;
+    private JLabel messageLabel;
 
     public InfoPanel(Board board) {
         setPreferredSize(new Dimension(1000, 95));
@@ -36,12 +37,22 @@ public class InfoPanel extends JPanel {
         healthBar.setFont(new Font("Serif", Font.BOLD, 14));
         healthBar.setPreferredSize(new Dimension(250, 22));
 
-        JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 15));
+        messageLabel = new JLabel("");
+        messageLabel.setFont(new Font("Serif", Font.BOLD, 22));
+        messageLabel.setForeground(new Color(120, 20, 20));
+
+        JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 25));
         textPanel.setOpaque(false);
 
         textPanel.add(nameLabel);
         textPanel.add(statsLabel);
 
+        add(textPanel, BorderLayout.CENTER);
+        add(healthBar, BorderLayout.EAST);
+
+        textPanel.add(nameLabel);
+        textPanel.add(statsLabel);
+        textPanel.add(messageLabel);
         add(textPanel, BorderLayout.CENTER);
         add(healthBar, BorderLayout.EAST);
 
@@ -62,5 +73,13 @@ public class InfoPanel extends JPanel {
         healthBar.setMaximum(p.getHealthPool());
         healthBar.setValue(p.getHealthAmount());
         healthBar.setString("HP: " + p.getHealthAmount() + "/" + p.getHealthPool());
+        revalidate();
+        repaint();
+    }
+
+    public void setMessage(String message) {
+        messageLabel.setText(message);
+        revalidate();
+        repaint();
     }
 }
