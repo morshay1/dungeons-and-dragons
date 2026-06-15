@@ -1,9 +1,9 @@
-package Enemies;
+package enemies;
 
 import java.util.Random;
 
-import Players.Player;
-import Tiles.Position;
+import players.Player;
+import tiles.Position;
 
 public class Monster extends Enemy {
     private int visionRange;

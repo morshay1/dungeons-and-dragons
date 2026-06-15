@@ -1,11 +1,11 @@
-package Players;
+package players;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import Enemies.Enemy;
-import Resources.Health;
+import enemies.Enemy;
+import resources.Health;
 
 public class Warrior extends Player {
     private int abilityCooldown;

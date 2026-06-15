@@ -1,7 +1,7 @@
-package Enemies;
+package enemies;
 
-import Players.Player;
-import Tiles.Position;
+import players.Player;
+import tiles.Position;
 
 public class Trap extends Enemy {
     private int visibilityTime;

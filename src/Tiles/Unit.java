@@ -1,10 +1,10 @@
-package Tiles;
+package tiles;
 
-import Players.Player;
-import Resources.Health;
-import Enemies.Enemy;
-import Messages.DeathCallback;
-import Messages.MessageCallback;
+import players.Player;
+import resources.Health;
+import enemies.Enemy;
+import messages.DeathCallback;
+import messages.MessageCallback;
 
 public abstract class Unit extends Tile {
     protected String name;

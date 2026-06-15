@@ -1,10 +1,10 @@
-package Enemies;
+package enemies;
 
-import Players.Player;
-import Tiles.Unit;
-import Tiles.Position;
-import Messages.DeathCallback;
-import Messages.MessageCallback;
+import players.Player;
+import tiles.Unit;
+import tiles.Position;
+import messages.DeathCallback;
+import messages.MessageCallback;
 
 public abstract class Enemy extends Unit {
     protected int experienceValue;

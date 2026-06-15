@@ -1,10 +1,10 @@
-package Main.UI;
+package main.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import Players.Player;
-import Main.Board;
-import Main.GameController;
+import players.Player;
+import main.Board;
+import main.GameController;
 
 public class GameWindow extends JFrame {
     private String levelsPath;
@@ -16,12 +16,11 @@ public class GameWindow extends JFrame {
 
         setTitle("Dungeons and Dragons Game");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
 
         showPlayerSelection();
 
-        setLocationRelativeTo(null);
         setVisible(true);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     public void showPlayerSelection() {
@@ -36,19 +35,23 @@ public class GameWindow extends JFrame {
     }
 
     public void showGame(Board board) {
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         GamePanel gamePanel = new GamePanel(controller, board);
         infoPanel = new InfoPanel(board);
 
-        mainPanel.add(gamePanel, BorderLayout.CENTER);
-        mainPanel.add(infoPanel, BorderLayout.EAST);
+        JPanel boardWrapper = new JPanel(new GridBagLayout());
+        boardWrapper.add(gamePanel);
 
+        mainPanel.add(infoPanel, BorderLayout.NORTH);
+        mainPanel.add(boardWrapper, BorderLayout.CENTER);
+        
         setContentPane(mainPanel);
         pack();
-        setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        gamePanel.requestFocusInWindow();
+        SwingUtilities.invokeLater(() -> gamePanel.requestFocusInWindow());
     }
 
     public void refresh(Board board) {

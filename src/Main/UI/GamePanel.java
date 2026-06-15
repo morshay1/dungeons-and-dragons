@@ -1,4 +1,4 @@
-package Main.UI;
+package main.ui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,13 +7,12 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import Main.GameController;
-import Main.Board;
-
-import Tiles.Tile;
+import main.Board;
+import main.GameController;
+import tiles.Tile;
 
 public class GamePanel extends JPanel {
-    private static final int TILE_SIZE = 32;
+    private static final int TILE_SIZE = 96;
 
     private GameController controller;
     private Board board;
@@ -27,24 +26,24 @@ public class GamePanel extends JPanel {
 
         setPreferredSize(new Dimension(
                 board.getBoardWidth() * TILE_SIZE,
-                board.getBoardHeight() * TILE_SIZE
-        ));
+                board.getBoardHeight() * TILE_SIZE));
 
         setFocusable(true);
+        requestFocusInWindow();
         loadImages();
         setupKeyBindings();
     }
 
     private void loadImages() {
         try {
-            ground = ImageIO.read(new File("assets/ground.png"));
+            ground = ImageIO.read(new File("assets/illustrations/ground.png"));
 
             images = new HashMap<>();
-            images.put('#', ImageIO.read(new File("assets/bush.png")));
-            images.put('@', ImageIO.read(new File("assets/warrior.png")));
-            images.put('s', ImageIO.read(new File("assets/goblin_sword.png")));
-            images.put('k', ImageIO.read(new File("assets/skeleton_spear.png")));
-            images.put('m', ImageIO.read(new File("assets/mage.png")));
+            images.put('#', ImageIO.read(new File("assets/illustrations/bush.png")));
+            images.put('@', ImageIO.read(new File("assets/illustrations/warrior.png")));
+            images.put('s', ImageIO.read(new File("assets/illustrations/goblin_sword.png")));
+            images.put('k', ImageIO.read(new File("assets/illustrations/skeleton_spear.png")));
+            images.put('m', ImageIO.read(new File("assets/illustrations/mage.png")));
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to load images", e);
@@ -65,7 +64,7 @@ public class GamePanel extends JPanel {
         getActionMap().put(key, new AbstractAction() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                controller.gameTick(action);
+                controller.guiPlayerAction(String.valueOf(action));
                 repaint();
             }
         });

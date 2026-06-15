@@ -1,16 +1,15 @@
-package Main;
+package main;
 
 import java.util.*;
 
-import Players.Player;
-import Tiles.Tile;
-import Enemies.Enemy;
-import Messages.MessageCallback;
-import Tiles.Position;
-import Tiles.Empty;
+import players.Player;
+import tiles.Tile;
+import enemies.Enemy;
+import messages.MessageCallback;
+import tiles.Position;
+import tiles.Empty;
 
 public class Board {
-    private List<String> board;
     private Player player;
     private List<Tile> tiles;
     private List<Enemy> enemies;
@@ -19,7 +18,6 @@ public class Board {
     private int boardWidth;
 
     public Board(List<String> board, Player player, MessageCallback messageCallback) {
-        this.board = board;
         this.player = player;
         this.tiles = new ArrayList<>();
         this.enemies = new ArrayList<>();
@@ -87,6 +85,10 @@ public class Board {
             tiles.set(oldIndex, new Empty(new Position(oldIndex / boardWidth, oldIndex % boardWidth)));
             tiles.set(newIndex, enemy);
         }
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public void removeDeadEnemies() {

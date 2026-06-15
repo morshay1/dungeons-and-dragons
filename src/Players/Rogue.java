@@ -1,9 +1,9 @@
-package Players;
+package players;
 
 import java.util.List;
 
-import Resources.Energy;
-import Enemies.Enemy;
+import resources.Energy;
+import enemies.Enemy;
 
 public class Rogue extends Player {
     private Energy energy;;

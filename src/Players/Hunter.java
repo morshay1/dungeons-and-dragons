@@ -1,9 +1,9 @@
-package Players;
+package players;
 
 import java.util.Comparator;
 import java.util.List;
 
-import Enemies.Enemy;
+import enemies.Enemy;
 
 public class Hunter extends Player {
     private int hunterRange;

@@ -1,9 +1,9 @@
-package Main;
+package main;
 
 import java.util.Scanner;
 
-import Messages.MessageCallback;
-import Messages.InputReader;
+import messages.MessageCallback;
+import messages.InputReader;
 
 public class CLI {
     private final Scanner scanner;

@@ -1,22 +1,22 @@
-package Main;
+package main;
 
 import java.util.*;
 import java.util.stream.*;
 import java.util.function.*;
 
-import Players.Player;
-import Players.Mage;
-import Players.Rogue;
-import Players.Warrior;
-import Players.Hunter;
-import Enemies.Enemy;
-import Enemies.Monster;
-import Enemies.Trap;
-import Messages.MessageCallback;
-import Enemies.Boss;
-import Tiles.Position;
-import Tiles.Empty;
-import Tiles.Wall;
+import players.Player;
+import players.Mage;
+import players.Rogue;
+import players.Warrior;
+import players.Hunter;
+import enemies.Enemy;
+import enemies.Monster;
+import enemies.Trap;
+import enemies.Boss;
+import tiles.Position;
+import tiles.Empty;
+import tiles.Wall;
+import messages.MessageCallback;
 
 public class TileFactory {
     private List<Supplier<Player>> playersList;

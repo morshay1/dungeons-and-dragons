@@ -1,11 +1,11 @@
-package Players;
+package players;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import Enemies.Enemy;
-import Resources.Mana;
+import enemies.Enemy;
+import resources.Mana;
 
 public class Mage extends Player {
     private Mana mana;

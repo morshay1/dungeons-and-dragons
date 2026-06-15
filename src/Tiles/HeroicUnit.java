@@ -1,4 +1,4 @@
-package Tiles;
+package tiles;
 
 public interface HeroicUnit<T> {
 

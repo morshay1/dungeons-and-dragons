@@ -1,4 +1,4 @@
-package Main;
+package main;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -6,9 +6,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.io.IOException;
-import Players.Player;
-import Enemies.Enemy;
-import Tiles.Position;
+import players.Player;
+import enemies.Enemy;
+import tiles.Position;
+import main.ui.GameWindow;
 
 public class GameController {
     private CLI cli;
@@ -171,5 +172,22 @@ public class GameController {
         }
 
         board.removeDeadEnemies();
+    }
+
+    public void startWithPlayer(Player selectedPlayer, GameWindow window) {
+        if (levelsAmount == 0) {
+            window.showMessage("No level files found. Exiting game.");
+            return;
+        }
+
+        this.player = selectedPlayer;
+
+        try {
+            List<String> stringBoard = loadBoard(levelsPath, currentLevel);
+            this.board = new Board(stringBoard, player, cli.message);
+            window.showGame(board);
+        } catch (IOException e) {
+            window.showMessage("Failed to process level " + currentLevel + ".");
+        }
     }
 }

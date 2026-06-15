@@ -1,9 +1,10 @@
-package Main;
+package main;
+
+import javax.swing.SwingUtilities;
+import main.ui.GameWindow;
 
 public class Main {
     public static void main(String[] args) {
-        String levelsPath = "levels";
-        GameController gameController = new GameController(levelsPath);
-        gameController.start();
+        SwingUtilities.invokeLater(() -> new GameWindow("levels"));
     }
 }

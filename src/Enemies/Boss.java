@@ -1,10 +1,10 @@
-package Enemies;
+package enemies;
 
 import java.util.Random;
 
-import Players.Player;
-import Tiles.HeroicUnit;
-import Tiles.Position;
+import players.Player;
+import tiles.HeroicUnit;
+import tiles.Position;
 
 public class Boss extends Enemy implements HeroicUnit<Player> {
     private Random random = new Random();

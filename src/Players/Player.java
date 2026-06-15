@@ -1,14 +1,14 @@
-package Players;
+package players;
 
 import java.util.List;
 
-import Enemies.Enemy;
-import Messages.DeathCallback;
-import Messages.MessageCallback;
-import Resources.Health;
-import Tiles.Position;
-import Tiles.Unit;
-import Tiles.HeroicUnit;
+import enemies.Enemy;
+import messages.DeathCallback;
+import messages.MessageCallback;
+import resources.Health;
+import tiles.Position;
+import tiles.Unit;
+import tiles.HeroicUnit;
 
 public abstract class Player extends Unit implements HeroicUnit<List<Enemy>> {
     protected int experience;

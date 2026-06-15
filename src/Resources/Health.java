@@ -1,4 +1,4 @@
-package Resources;
+package resources;
 
 public class Health extends Resource {
 

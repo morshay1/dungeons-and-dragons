@@ -1,4 +1,4 @@
-package Tiles;
+package tiles;
 
 public abstract class Tile implements Comparable<Tile> {
     protected char tile;
