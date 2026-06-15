@@ -19,7 +19,9 @@ import players.Hunter;
 import java.util.List;
 
 public class GamePanel extends JPanel {
-    private static final int TILE_SIZE = 120;
+    private static final int TILE_SIZE = 80;
+    private static final int VIEW_WIDTH = 9;
+    private static final int VIEW_HEIGHT = 7;
 
     private GameController controller;
     private Board board;
@@ -34,9 +36,16 @@ public class GamePanel extends JPanel {
         this.board = board;
         this.window = window;
 
+        int visibleCols = Math.min(VIEW_WIDTH, board.getBoardWidth());
+        int visibleRows = Math.min(VIEW_HEIGHT, board.getBoardHeight());
+
         setPreferredSize(new Dimension(
-                board.getBoardWidth() * TILE_SIZE,
-                board.getBoardHeight() * TILE_SIZE));
+                visibleCols * TILE_SIZE,
+                visibleRows * TILE_SIZE));
+
+        setMinimumSize(getPreferredSize());
+        setMaximumSize(getPreferredSize());
+
         setBorder(BorderFactory.createLineBorder(new Color(70, 45, 20), 6));
 
         setFocusable(true);
@@ -109,9 +118,27 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        Position playerPos = board.getPlayer().getPosition();
+        int visibleRows = Math.min(VIEW_HEIGHT, board.getBoardHeight());
+        int visibleCols = Math.min(VIEW_WIDTH, board.getBoardWidth());
+
+        int startRow = playerPos.getX() - visibleRows / 2;
+        int startCol = playerPos.getY() - visibleCols / 2;
+
+        startRow = Math.max(0, Math.min(startRow, board.getBoardHeight() - visibleRows));
+        startCol = Math.max(0, Math.min(startCol, board.getBoardWidth() - visibleCols));
+
         for (Tile tile : board.getTiles()) {
-            int x = tile.getPosition().getY() * TILE_SIZE;
-            int y = tile.getPosition().getX() * TILE_SIZE;
+            int row = tile.getPosition().getX();
+            int col = tile.getPosition().getY();
+
+            if (row < startRow || row >= startRow + visibleRows ||
+                    col < startCol || col >= startCol + visibleCols) {
+                continue;
+            }
+
+            int x = (col - startCol) * TILE_SIZE;
+            int y = (row - startRow) * TILE_SIZE;
 
             g.drawImage(ground, x, y, TILE_SIZE, TILE_SIZE, null);
 
@@ -120,12 +147,20 @@ public class GamePanel extends JPanel {
                 g.drawImage(image, x, y, TILE_SIZE, TILE_SIZE, null);
             }
         }
-        BufferedImage cloud = images.get('F');
 
+        BufferedImage cloud = images.get('F');
         if (cloud != null) {
             for (Position position : fightPositions) {
-                int x = position.getY() * TILE_SIZE;
-                int y = position.getX() * TILE_SIZE;
+                int row = position.getX();
+                int col = position.getY();
+
+                if (row < startRow || row >= startRow + visibleRows ||
+                        col < startCol || col >= startCol + visibleCols) {
+                    continue;
+                }
+
+                int x = (col - startCol) * TILE_SIZE;
+                int y = (row - startRow) * TILE_SIZE;
 
                 g.drawImage(cloud, x, y, TILE_SIZE, TILE_SIZE, null);
             }
