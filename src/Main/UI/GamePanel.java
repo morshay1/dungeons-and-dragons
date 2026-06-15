@@ -12,7 +12,7 @@ import main.GameController;
 import tiles.Tile;
 
 public class GamePanel extends JPanel {
-    private static final int TILE_SIZE = 96;
+    private static final int TILE_SIZE = 120;
 
     private GameController controller;
     private Board board;
@@ -27,7 +27,8 @@ public class GamePanel extends JPanel {
         setPreferredSize(new Dimension(
                 board.getBoardWidth() * TILE_SIZE,
                 board.getBoardHeight() * TILE_SIZE));
-
+        setBorder(BorderFactory.createLineBorder(new Color(70, 45, 20), 6));
+        
         setFocusable(true);
         requestFocusInWindow();
         loadImages();

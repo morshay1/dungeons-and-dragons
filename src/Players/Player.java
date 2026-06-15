@@ -52,6 +52,26 @@ public abstract class Player extends Unit implements HeroicUnit<List<Enemy>> {
         }
     }
 
+    public int getHealthAmount() {
+        return health.getAmount();
+    }
+
+    public int getHealthPool() {
+        return health.getPool();
+    }
+
+    public int getAttackPoints() {
+        return attackPoints;
+    }
+
+    public int getDefensePoints() {
+        return defensePoints;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
     public int getExperience() {
         return experience;
     }
@@ -66,10 +86,6 @@ public abstract class Player extends Unit implements HeroicUnit<List<Enemy>> {
         while (experience >= level * 50) {
             levelUp();
         }
-    }
-
-    public int getLevel() {
-        return level;
     }
 
     public void setLevel(int newLevel) {

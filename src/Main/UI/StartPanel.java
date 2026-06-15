@@ -49,20 +49,29 @@ public class StartPanel extends JPanel {
     }
 
     private JButton createPlayerButton(Player player) {
-        JButton button = new JButton("<html><div style='width:650px;'>"
-                + player.describe()
-                + "</div></html>");
+        String text = "<html><center>" +
+                "<b style='font-size:22px'>" + player.getName() + "</b><br>" +
+                "Health: " + player.getHealthAmount() + "/" + player.getHealthPool() +
+                " | Attack: " + player.getAttackPoints() +
+                " | Defense: " + player.getDefensePoints() +
+                " | Level: " + player.getLevel() +
+                " | XP: " + player.getExperience() +
+                "</center></html>";
 
-        button.setFont(new Font("Serif", Font.BOLD, 18));
+        JButton button = new JButton(text);
+
+        button.setFont(new Font("Serif", Font.BOLD, 16));
         button.setForeground(new Color(35, 20, 10));
         button.setBackground(new Color(186, 150, 95));
         button.setFocusPainted(false);
+
         button.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(70, 45, 20), 3),
                 BorderFactory.createEmptyBorder(12, 18, 12, 18)));
 
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        button.setMaximumSize(new Dimension(750, 80));
+        button.setMaximumSize(new Dimension(900, 85));
+        button.setPreferredSize(new Dimension(900, 85));
         button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         return button;

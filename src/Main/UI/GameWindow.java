@@ -35,18 +35,20 @@ public class GameWindow extends JFrame {
     }
 
     public void showGame(Board board) {
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        GameBackgroundPanel mainPanel = new GameBackgroundPanel();
+        mainPanel.setLayout(new BorderLayout(10, 10));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         GamePanel gamePanel = new GamePanel(controller, board);
         infoPanel = new InfoPanel(board);
 
         JPanel boardWrapper = new JPanel(new GridBagLayout());
+        boardWrapper.setOpaque(false);
         boardWrapper.add(gamePanel);
 
         mainPanel.add(infoPanel, BorderLayout.NORTH);
         mainPanel.add(boardWrapper, BorderLayout.CENTER);
-        
+
         setContentPane(mainPanel);
         pack();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -63,5 +65,37 @@ public class GameWindow extends JFrame {
 
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
+    }
+}
+
+class GameBackgroundPanel extends JPanel {
+    private Image background;
+
+    public GameBackgroundPanel() {
+        try {
+            background = javax.imageio.ImageIO.read(
+                    new java.io.File("assets/illustrations/ground.png")
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to load game background", e);
+        }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        if (background == null) {
+            return;
+        }
+
+        int imgWidth = background.getWidth(this);
+        int imgHeight = background.getHeight(this);
+
+        for (int x = 0; x < getWidth(); x += imgWidth) {
+            for (int y = 0; y < getHeight(); y += imgHeight) {
+                g.drawImage(background, x, y, this);
+            }
+        }
     }
 }
