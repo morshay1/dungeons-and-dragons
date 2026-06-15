@@ -17,6 +17,7 @@ import tiles.Position;
 import tiles.Empty;
 import tiles.Wall;
 import messages.MessageCallback;
+import messages.CombatCallback;
 
 public class TileFactory {
     private List<Supplier<Player>> playersList;
@@ -61,15 +62,17 @@ public class TileFactory {
         return playersList.stream().map(Supplier::get).collect(Collectors.toList());
     }
 
-    public Player producePlayer(int index, Position position, MessageCallback messageCallback) {
+    public Player producePlayer(int index, Position position, MessageCallback messageCallback,
+            CombatCallback combatCallback) {
         Player selectedPlayer = playersList.get(index).get();
-        selectedPlayer.initialize(position, messageCallback);
+        selectedPlayer.initialize(position, messageCallback, combatCallback);
         return selectedPlayer;
     }
 
-    public Enemy produceEnemy(char tile, Position position, MessageCallback messageCallback) {
+    public Enemy produceEnemy(char tile, Position position, MessageCallback messageCallback,
+            CombatCallback combatCallback) {
         Enemy selectedEnemy = enemiesMap.get(tile).get();
-        selectedEnemy.initialize(position, messageCallback);
+        selectedEnemy.initialize(position, messageCallback, combatCallback);
         return selectedEnemy;
     }
 

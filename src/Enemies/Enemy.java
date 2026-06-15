@@ -3,6 +3,7 @@ package enemies;
 import players.Player;
 import tiles.Unit;
 import tiles.Position;
+import messages.CombatCallback;
 import messages.DeathCallback;
 import messages.MessageCallback;
 
@@ -14,9 +15,9 @@ public abstract class Enemy extends Unit {
         this.experienceValue = experienceValue;
     }
 
-    public void initialize(Position position, MessageCallback messageCallback) {
-        DeathCallback deathCallback = () -> System.out.println(getName() + " enemy died.");
-        super.initialize(position, messageCallback, deathCallback);
+    public void initialize(Position position, MessageCallback messageCallback, CombatCallback combatCallback) {
+        DeathCallback deathCallback = () -> System.out.println(getName() + " died. Game over.");
+        super.initialize(position, messageCallback, deathCallback, combatCallback);
     }
 
     public abstract Position onGameTick(Player player);

@@ -5,6 +5,7 @@ import java.util.*;
 import players.Player;
 import tiles.Tile;
 import enemies.Enemy;
+import messages.CombatCallback;
 import messages.MessageCallback;
 import tiles.Position;
 import tiles.Empty;
@@ -14,14 +15,16 @@ public class Board {
     private List<Tile> tiles;
     private List<Enemy> enemies;
     private MessageCallback messageCallback;
+    private CombatCallback combatCallback;
     private int boardHeight;
     private int boardWidth;
 
-    public Board(List<String> board, Player player, MessageCallback messageCallback) {
+    public Board(List<String> board, Player player, MessageCallback messageCallback, CombatCallback combatCallback) {
         this.player = player;
         this.tiles = new ArrayList<>();
         this.enemies = new ArrayList<>();
         this.messageCallback = messageCallback;
+        this.combatCallback = combatCallback;
         this.boardHeight = board.size();
         this.boardWidth = board.get(0).length();
         createBoard(board);
@@ -36,11 +39,11 @@ public class Board {
                     case '#' -> tiles.add(tileFactory.produceWall(new Position(i, j)));
                     case '.' -> tiles.add(tileFactory.produceEmpty(new Position(i, j)));
                     case '@' -> {
-                        player.initialize(new Position(i, j), messageCallback);
+                        player.initialize(new Position(i, j), messageCallback, combatCallback);
                         tiles.add(player);
                     }
                     case 's', 'k', 'q', 'z', 'b', 'g', 'w', 'M', 'C', 'K', 'B', 'Q', 'D' -> {
-                        Enemy newEnemy = tileFactory.produceEnemy(someChar, new Position(i, j), messageCallback);
+                        Enemy newEnemy = tileFactory.produceEnemy(someChar, new Position(i, j), messageCallback, combatCallback);
                         enemies.add(newEnemy);
                         tiles.add(newEnemy);
                     }

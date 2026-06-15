@@ -1,13 +1,15 @@
-package main.ui;
+package main;
 
 import javax.swing.*;
+
+import main.ui.GameWindow;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.util.List;
 
-import main.TileFactory;
 import players.Player;
 
 public class StartPanel extends JPanel {

@@ -3,6 +3,7 @@ package players;
 import java.util.List;
 
 import enemies.Enemy;
+import messages.CombatCallback;
 import messages.DeathCallback;
 import messages.MessageCallback;
 import resources.Health;
@@ -22,9 +23,9 @@ public abstract class Player extends Unit implements HeroicUnit<List<Enemy>> {
         this.abilityName = abilityName;
     }
 
-    public void initialize(Position position, MessageCallback messageCallback) {
+    public void initialize(Position position, MessageCallback messageCallback, CombatCallback combatCallback) {
         DeathCallback deathCallback = () -> System.out.println(getName() + " died. Game over.");
-        super.initialize(position, messageCallback, deathCallback);
+        super.initialize(position, messageCallback, deathCallback, combatCallback);
     }
 
     public void levelUp() {

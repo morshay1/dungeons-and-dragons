@@ -5,7 +5,9 @@ import java.awt.*;
 import players.Player;
 import main.Board;
 import main.GameController;
+import main.StartPanel;
 import tiles.Position;
+import java.util.List;
 
 public class GameWindow extends JFrame {
     private String levelsPath;
@@ -90,18 +92,12 @@ public class GameWindow extends JFrame {
         repaint();
     }
 
-    public void showFightCloud(Position position) {
+    public void showFightClouds(List<Position> positions) {
         if (gamePanel != null) {
-            gamePanel.showFightCloud(position);
+            gamePanel.showFightClouds(positions);
         }
     }
 }
-
-
-
-
-
-
 
 class GameBackgroundPanel extends JPanel {
     private Image background;

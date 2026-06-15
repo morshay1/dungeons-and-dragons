@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import main.Board;
@@ -15,6 +16,7 @@ import players.Warrior;
 import players.Mage;
 import players.Rogue;
 import players.Hunter;
+import java.util.List;
 
 public class GamePanel extends JPanel {
     private static final int TILE_SIZE = 120;
@@ -25,8 +27,7 @@ public class GamePanel extends JPanel {
     private BufferedImage ground;
     private Map<Character, BufferedImage> images;
     private GameWindow window;
-    private Position fightPosition;
-    private boolean showFightCloud = false;
+    private List<Position> fightPositions = new ArrayList<>();
 
     public GamePanel(GameController controller, Board board, GameWindow window) {
         this.controller = controller;
@@ -119,12 +120,13 @@ public class GamePanel extends JPanel {
                 g.drawImage(image, x, y, TILE_SIZE, TILE_SIZE, null);
             }
         }
-        if (showFightCloud && fightPosition != null) {
-            int x = fightPosition.getY() * TILE_SIZE;
-            int y = fightPosition.getX() * TILE_SIZE;
+        BufferedImage cloud = images.get('F');
 
-            BufferedImage cloud = images.get('F');
-            if (cloud != null) {
+        if (cloud != null) {
+            for (Position position : fightPositions) {
+                int x = position.getY() * TILE_SIZE;
+                int y = position.getX() * TILE_SIZE;
+
                 g.drawImage(cloud, x, y, TILE_SIZE, TILE_SIZE, null);
             }
         }
@@ -150,13 +152,16 @@ public class GamePanel extends JPanel {
         return images.get(tile.getTile());
     }
 
-    public void showFightCloud(Position position) {
-        this.fightPosition = position;
-        this.showFightCloud = true;
+    public void showFightClouds(List<Position> positions) {
+        if (positions == null || positions.isEmpty()) {
+            return;
+        }
+
+        this.fightPositions = new ArrayList<>(positions);
         repaint();
 
         new Timer(400, e -> {
-            showFightCloud = false;
+            fightPositions.clear();
             repaint();
             ((Timer) e.getSource()).stop();
         }).start();

@@ -5,6 +5,7 @@ import resources.Health;
 import enemies.Enemy;
 import messages.DeathCallback;
 import messages.MessageCallback;
+import messages.CombatCallback;
 
 public abstract class Unit extends Tile {
     protected String name;
@@ -13,6 +14,7 @@ public abstract class Unit extends Tile {
     protected int defensePoints;
     protected MessageCallback messageCallback;
     protected DeathCallback deathCallback;
+    protected CombatCallback combatCallback;
 
     protected Unit(char tile, String name, int healthCapacity, int attackPoints, int defensePoints) {
         super(tile);
@@ -22,10 +24,12 @@ public abstract class Unit extends Tile {
         this.defensePoints = defensePoints;
     }
 
-    protected void initialize(Position position, MessageCallback messageCallback, DeathCallback deathCallback) {
+    protected void initialize(Position position, MessageCallback messageCallback,
+                          DeathCallback deathCallback, CombatCallback combatCallback) {
         super.initialize(position);
         this.messageCallback = messageCallback;
         this.deathCallback = deathCallback;
+        this.combatCallback = combatCallback;
     }
 
     public void interact(Tile tile) {
@@ -38,6 +42,9 @@ public abstract class Unit extends Tile {
         int damage = Math.max(attackRoll - defenseRoll, 0);
 
         messageCallback.send(this.getName() + " engaged in combat with " + defender.getName() + ".");
+        if (combatCallback != null) {
+            combatCallback.onCombat(this, defender);
+        }
         messageCallback.send(this.getName() + " rolled " + attackRoll + " attack points.");
         messageCallback.send(defender.getName() + " rolled " + defenseRoll + " defense points.");
 

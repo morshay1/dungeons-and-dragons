@@ -38,7 +38,12 @@ public class GameController {
         while (!player.isDead() && currentLevel <= levelsAmount) {
             try {
                 List<String> stringBoard = loadBoard(levelsPath, currentLevel);
-                board = new Board(stringBoard, player, cli.message);
+                board = new Board(
+                        stringBoard,
+                        player,
+                        cli.message,
+                        (attacker, defender) -> window.showFightClouds(
+                                List.of(attacker.getPosition(), defender.getPosition())));
             } catch (IOException e) {
                 cli.display("Failed to process level " + currentLevel + ".");
                 return;
@@ -154,8 +159,6 @@ public class GameController {
         if (player.isDead() || waitingForNextLevel) {
             return;
         }
-        
-        Position playerPositionBeforeAction  = player.getPosition();
 
         switch (action) {
             case "w" -> board.movePlayer(-1, 0);
@@ -166,13 +169,6 @@ public class GameController {
             default -> {
                 return;
             }
-        }
-
-        Position playerPositionAfterAction = player.getPosition();
-
-        if (playerPositionBeforeAction.compareTo(playerPositionAfterAction) == 0
-                && (action.equals("w") || action.equals("s") || action.equals("a") || action.equals("d"))) {
-            window.showFightCloud(playerPositionBeforeAction);
         }
 
         player.onGameTick();
@@ -188,28 +184,43 @@ public class GameController {
         window.refresh(board);
 
         if (player.isDead()) {
-            window.showCenterMessage("YOU DIED");
-            return;
-        }
 
-        if (board.getEnemies().isEmpty()) {
             waitingForNextLevel = true;
 
-            int completedLevel = currentLevel;
-            currentLevel++;
-
-            window.showCenterMessage("LEVEL " + completedLevel + " COMPLETE!");
-
             new javax.swing.Timer(2000, e -> {
-                ((javax.swing.Timer) e.getSource()).stop();
-
-                waitingForNextLevel = false;
-                loadNextGuiLevel();
+                ((javax.swing.Timer)e.getSource()).stop();
+                window.showCenterMessage("YOU DIED");
             }).start();
 
             return;
         }
 
+        if (board.getEnemies().isEmpty()) {
+
+            waitingForNextLevel = true;
+
+            int completedLevel = currentLevel;
+            currentLevel++;
+
+            new javax.swing.Timer(2000, e -> {
+                ((javax.swing.Timer)e.getSource()).stop();
+
+                window.showCenterMessage(
+                    "LEVEL " + completedLevel + " COMPLETE!"
+                );
+
+                new javax.swing.Timer(2000, e2 -> {
+                    ((javax.swing.Timer)e2.getSource()).stop();
+
+                    waitingForNextLevel = false;
+                    loadNextGuiLevel();
+                }).start();
+
+            }).start();
+
+            return;
+        }
+        
         window.setStatusMessage("");
     }
 
@@ -219,7 +230,12 @@ public class GameController {
 
         try {
             List<String> stringBoard = loadBoard(levelsPath, currentLevel);
-            this.board = new Board(stringBoard, player, cli.message);
+            this.board = new Board(
+                    stringBoard,
+                    player,
+                    cli.message,
+                    (attacker, defender) -> window.showFightClouds(
+                            List.of(attacker.getPosition(), defender.getPosition())));
             window.showGame(board);
         } catch (IOException e) {
             window.showMessage("Failed to process level " + currentLevel + ".");
@@ -234,7 +250,12 @@ public class GameController {
 
         try {
             List<String> stringBoard = loadBoard(levelsPath, currentLevel);
-            board = new Board(stringBoard, player, cli.message);
+            board = new Board(
+                    stringBoard,
+                    player,
+                    cli.message,
+                    (attacker, defender) -> window.showFightClouds(
+                            List.of(attacker.getPosition(), defender.getPosition())));
 
             System.out.println("Loaded level: " + currentLevel);
             System.out.println("Width: " + board.getBoardWidth());
