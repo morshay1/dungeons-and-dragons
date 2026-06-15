@@ -39,7 +39,7 @@ public class GameWindow extends JFrame {
         mainPanel.setLayout(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        GamePanel gamePanel = new GamePanel(controller, board);
+        GamePanel gamePanel = new GamePanel(controller, board, this);
         infoPanel = new InfoPanel(board);
 
         JPanel boardWrapper = new JPanel(new GridBagLayout());
@@ -74,8 +74,7 @@ class GameBackgroundPanel extends JPanel {
     public GameBackgroundPanel() {
         try {
             background = javax.imageio.ImageIO.read(
-                    new java.io.File("assets/illustrations/ground.png")
-            );
+                    new java.io.File("assets/illustrations/ground.png"));
         } catch (Exception e) {
             throw new RuntimeException("Failed to load game background", e);
         }

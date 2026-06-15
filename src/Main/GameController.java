@@ -18,6 +18,7 @@ public class GameController {
     private int levelsAmount;
     private Player player;
     private Board board;
+    private GameWindow window;
 
     public GameController(String levelsPath) {
         this.cli = new CLI();
@@ -57,6 +58,10 @@ public class GameController {
         if (!player.isDead()) {
             cli.display("You win!");
         }
+    }
+
+    public Board getBoard() {
+        return board;
     }
 
     public Player choosePlayer() {
@@ -146,6 +151,10 @@ public class GameController {
     }
 
     public void guiPlayerAction(String action) {
+        if (player.isDead()) {
+            return;
+        }
+
         switch (action) {
             case "w" -> board.movePlayer(-1, 0);
 
@@ -172,14 +181,34 @@ public class GameController {
         }
 
         board.removeDeadEnemies();
+        
+        if (player.isDead()) {
+            window.refresh(board);
+            window.showMessage("You lost.");
+            return;
+        }
+        if (board.getEnemies().isEmpty()) {
+            currentLevel++;
+
+            if (currentLevel > levelsAmount) {
+                window.showMessage("You win!");
+                return;
+            }
+
+            try {
+                List<String> stringBoard = loadBoard(levelsPath, currentLevel);
+                board = new Board(stringBoard, player, cli.message);
+                window.showGame(board);
+            } catch (IOException ex) {
+                window.showMessage("Failed to load level " + currentLevel + ".");
+            }
+
+            return;
+        }
     }
 
     public void startWithPlayer(Player selectedPlayer, GameWindow window) {
-        if (levelsAmount == 0) {
-            window.showMessage("No level files found. Exiting game.");
-            return;
-        }
-
+        this.window = window;
         this.player = selectedPlayer;
 
         try {
