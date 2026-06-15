@@ -18,8 +18,7 @@ public class InfoPanel extends JPanel {
 
         setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(70, 45, 20), 4),
-                BorderFactory.createEmptyBorder(10, 20, 10, 20)
-        ));
+                BorderFactory.createEmptyBorder(10, 20, 10, 20)));
 
         nameLabel = new JLabel();
         nameLabel.setFont(new Font("Serif", Font.BOLD, 26));
@@ -30,11 +29,16 @@ public class InfoPanel extends JPanel {
         statsLabel.setForeground(new Color(35, 20, 10));
 
         healthBar = new JProgressBar();
+        healthBar.setForeground(new Color(120, 20, 20));
+        healthBar.setBackground(new Color(70, 45, 20));
+        healthBar.setBorder(BorderFactory.createLineBorder(new Color(70, 45, 20), 2));
         healthBar.setStringPainted(true);
+        healthBar.setFont(new Font("Serif", Font.BOLD, 14));
         healthBar.setPreferredSize(new Dimension(250, 22));
 
-        JPanel textPanel = new JPanel(new GridLayout(2, 1));
+        JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 15));
         textPanel.setOpaque(false);
+
         textPanel.add(nameLabel);
         textPanel.add(statsLabel);
 
@@ -53,8 +57,7 @@ public class InfoPanel extends JPanel {
                 "Attack: " + p.getAttackPoints()
                         + " | Defense: " + p.getDefensePoints()
                         + " | Level: " + p.getLevel()
-                        + " | XP: " + p.getExperience() + "/" + (p.getLevel() * 50)
-        );
+                        + " | XP: " + p.getExperience() + "/" + (p.getLevel() * 50));
 
         healthBar.setMaximum(p.getHealthPool());
         healthBar.setValue(p.getHealthAmount());
